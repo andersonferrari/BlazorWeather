@@ -11,6 +11,7 @@ namespace BlazorWeather
 
         public static IWebAssemblyHostBuilder CreateHostBuilder(string[] args) =>
             BlazorWebAssemblyHost.CreateDefaultBuilder()
+                //.UserUrls("http://192.168.0.32:63390")
                 .UseBlazorStartup<Startup>();
     }
 }
