@@ -1,3 +1,7 @@
+MapFallbackToPage
+
+http://localhost:63390/
+
 on browser's console:
 localStorage.setItem("accuweathertoken", "\"KotAVCIHDlrmaHoKzDF7fypyy36TANkA\"")
 localStorage.setItem("accuweathertoken", "\"sKefAov821QVxsSeWuGMSbS6IUmufiuG\"")
