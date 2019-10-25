@@ -24,6 +24,7 @@ namespace MVCAPP
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            // !!!!!
             services.AddServerSideBlazor();
         }
 

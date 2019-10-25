@@ -1,0 +1,120 @@
+on browser's console:
+localStorage.setItem("accuweathertoken", "\"KotAVCIHDlrmaHoKzDF7fypyy36TANkA\"")
+localStorage.setItem("accuweathertoken", "\"sKefAov821QVxsSeWuGMSbS6IUmufiuG\"")
+localStorage.setItem("accuweathertoken", "\"mSVq7G4zA6DkRA7DkKbGpbJYn7L127bR\"")
+localStorage.setItem("accuweathertoken", "\"lGKZVAMU10vOAADVm93GdoBlVDbf7COV\"")
+
+
+Presentation
+mouse e carregagador
+
+-- PREPARATION ----------------------
+Open:
+- VS BlazorWeather (d:\code\Razor)
+- VS GeoLocation
+- Docs: https://docs.microsoft.com/en-us/aspnet/core/blazor/hosting-models?view=aspnetcore-3.0
+- github: https://github.com/andersonferrari/BlazorWeather
+- https://developer.accuweather.com/
+
+
+
+--- DEMO ---- ctrl-shif-P
+1) --- MVC app wiht Razor component ------------
+==> --- Adicionar Razor Components em projetos (MVC/Razor) existentes --------------
+	Create Vanila MVC APP
+	Startup.cs => ConfigureServices()  => services.AddServerSideBlazor();
+	Startup.cs => Configure()  (line 55) => endpoints.MapBlazorHub();
+	Não precisamos do fallback _host nesse caso porque só vamos hospedar components (não página com routing) 
+	Views/Shared/_Layouts.cshtml (line 43) => <script src="_framework/blazor.server.js"></script>
+	Add => New Item => Razor Component => Component.razor (2 way binding)
+------------------------------
+@using Microsoft.AspNetCore.Components.Web
+
+<h3>Component</h3>
+
+<input @bind="message" @bind:event="oninput"/>
+<p>message: @message</p>
+
+@code {
+    string message;
+}
+------------------------------
+	View/Home/Index.cshtml (line 10)=>  @(await Html.RenderComponentAsync<Component>(RenderMode.ServerPrerendered))
+	
+
+2) --- Blazor.Server: ------------
+	Run
+	Show Program.cs: same as MVC!
+	Show Startup
+		-- ConfigureServices -- DI
+			.AddRazorPages()!! not replace for server render
+			.AddServerSideBlazor()
+			WeatherService httpClient
+		-- Configure --
+			Boilerplate
+			.MapBlazorHub:  túnel SignalR/webSocket
+			MapFallbackToPAge... página inicial que vai ser renderizada
+	Show _host.cshtml... RAZOR page!
+		@page "/"
+		RenderComponent()... 
+		blazor.server.js --- comunicação DOM com server
+	Show App.razor: Razor component
+		Show Router: 
+			similar ao root component do React e Angular
+			todos as páginas rauteáveis do Assembly
+	Show Forecast.razor: única página Roteável @page "/"
+		injetando componentes: show Startup code
+		1.2!!!!)---- SHOW GeoLocation PROJECT -------> Razor Class Library
+			LocationServices, Poco e wwwroot (com javascript) 
+			show interop and javascript
+		show html/ c# code
+		show call to other components
+		code vs markup => se quiser code behind patter.... create a class com o mesmo nome e @inhert
+		uncoment and show PushPin components
+
+
+
+
+
+3) --- Show web Assembly ------------
+DLLs
+PWA	
+
+
+
+
+---------------------------------------------------------------------------
+Component v2--------------------------------------------------
+@using Microsoft.AspNetCore.Components.Web
+
+<h3>Bem vindos ao DotNetFloripa 2019!!!</h3>
+
+<input @bind="message" @bind:event="oninput" />
+<button @onclick="ResetMessage" >Reset</button>
+<p>message: @message</p>
+
+@code {
+    string message;
+    public void ResetMessage()
+    {
+        //abrir conexao com banco
+        message = "";
+    }
+}
+
+---------------------------------
+<h1 style="font-style:@_headingFontStyle">@_headingText</h1>
+@code {
+    private string _headingFontStyle = "italic";
+    private string _headingText = "Put on your new Blazor!";
+}
+
+
+@using WebApplication1.Pages.Shared
+
+    <div id="MyComponent">
+        @(await Html.RenderComponentAsync<Component>(RenderMode.ServerPrerendered))
+    </div>
+---------------------------------
+
+
